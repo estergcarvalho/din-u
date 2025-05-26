@@ -33,7 +33,7 @@ public class MetaServlet extends HttpServlet {
             return;
         }
 
-        int idUsuario = usuarioLogado.getIdUsuario(); // Obtenha o ID do usuário logado
+        int idUsuario = usuarioLogado.getIdUsuario();
 
         if ("cadastrar".equals(action)) {
             request.getRequestDispatcher("/cadastroMeta.jsp").forward(request, response);
@@ -42,34 +42,32 @@ public class MetaServlet extends HttpServlet {
             request.setAttribute("listaMetas", metas);
             request.getRequestDispatcher("/listaMetas.jsp").forward(request, response);
         } else if ("editar".equals(action)) {
-            // Lógica para carregar a meta para edição
             try {
                 int idMeta = Integer.parseInt(request.getParameter("id"));
-                Meta meta = metaDAO.buscarMetaPorId(idMeta); // Busca a meta no DAO
+                Meta meta = metaDAO.buscarMetaPorId(idMeta);
 
-                if (meta != null && meta.getIdUsuario() == idUsuario) { // Verifica se a meta pertence ao usuário logado
+                if (meta != null && meta.getIdUsuario() == idUsuario) {
                     request.setAttribute("meta", meta);
                     request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
                 } else {
                     request.setAttribute("mensagemErro", "Meta não encontrada ou você não tem permissão para editá-la.");
-                    response.sendRedirect(request.getContextPath() + "/metas?action=listar"); // Redireciona para a lista
+                    response.sendRedirect(request.getContextPath() + "/metas?action=listar");
                 }
             } catch (NumberFormatException e) {
                 request.setAttribute("mensagemErro", "ID de meta inválido.");
                 response.sendRedirect(request.getContextPath() + "/metas?action=listar");
             }
         } else if ("excluir".equals(action)) {
-            // Lógica para excluir a meta
             try {
                 int idMeta = Integer.parseInt(request.getParameter("id"));
-                boolean excluido = metaDAO.excluirMeta(idMeta, idUsuario); // Passa o ID do usuário para segurança
+                boolean excluido = metaDAO.excluirMeta(idMeta, idUsuario);
 
                 if (excluido) {
                     request.setAttribute("mensagemSucesso", "Meta excluída com sucesso!");
                 } else {
                     request.setAttribute("mensagemErro", "Erro ao excluir meta ou você não tem permissão.");
                 }
-                response.sendRedirect(request.getContextPath() + "/metas?action=listar"); // Redireciona para a lista após exclusão
+                response.sendRedirect(request.getContextPath() + "/metas?action=listar");
             } catch (NumberFormatException e) {
                 request.setAttribute("mensagemErro", "ID de meta inválido para exclusão.");
                 response.sendRedirect(request.getContextPath() + "/metas?action=listar");
@@ -82,9 +80,8 @@ public class MetaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
-        String action = request.getParameter("action"); // Adiciona a verificação de 'action' no doPost
+        String action = request.getParameter("action");
 
-        // Obter o ID do usuário logado (essencial para vincular a meta)
         Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
         if (usuarioLogado == null) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
@@ -93,7 +90,6 @@ public class MetaServlet extends HttpServlet {
         int idUsuario = usuarioLogado.getIdUsuario();
 
         if ("cadastrar".equals(action)) {
-            // Lógica de cadastro (já existente)
             String descricao = request.getParameter("descricao");
             String valorAlvoStr = request.getParameter("valorAlvo");
             String dataAlvoStr = request.getParameter("dataAlvo");
@@ -138,8 +134,8 @@ public class MetaServlet extends HttpServlet {
             prioridade = prioridade.trim();
 
             Meta novaMeta = new Meta(idUsuario, descricao, valorAlvo, dataAlvo, statusMeta, prioridade);
-            novaMeta.setValorAtual(0.0); // Garante que o valor atual inicial é 0.0
-            novaMeta.setDataCriacao(LocalDate.now()); // Define a data de criação como hoje
+            novaMeta.setValorAtual(0.0);
+            novaMeta.setDataCriacao(LocalDate.now());
 
             boolean cadastrado = metaDAO.cadastrarMeta(novaMeta);
 
@@ -149,9 +145,8 @@ public class MetaServlet extends HttpServlet {
                 request.setAttribute("mensagemErro", "Erro ao cadastrar meta. Tente novamente.");
                 request.getRequestDispatcher("/cadastroMeta.jsp").forward(request, response);
             }
-        } else if ("atualizar".equals(action)) { // Nova lógica para ATUALIZAR
-            // Obter o ID da meta a ser atualizada
-            String idMetaStr = request.getParameter("idMeta"); // O nome do campo no formulário de edição
+        } else if ("atualizar".equals(action)) {
+            String idMetaStr = request.getParameter("idMeta");
             if (idMetaStr == null || idMetaStr.isEmpty()) {
                 request.setAttribute("mensagemErro", "ID da meta não fornecido para atualização.");
                 request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response); // Ou redirecionar para a lista
@@ -166,15 +161,14 @@ public class MetaServlet extends HttpServlet {
                 return;
             }
 
-            // Obter os demais parâmetros do formulário de edição
             String descricao = request.getParameter("descricao");
             String valorAlvoStr = request.getParameter("valorAlvo");
-            String valorAtualStr = request.getParameter("valorAtual"); // Pode ser atualizado também
+            String valorAtualStr = request.getParameter("valorAtual");
             String dataAlvoStr = request.getParameter("dataAlvo");
             String statusMeta = request.getParameter("statusMeta");
             String prioridade = request.getParameter("prioridade");
 
-            // Validação e tratamento dos dados (similar ao cadastro, mas para atualização)
+
             if (descricao == null || descricao.trim().isEmpty() ||
                 valorAlvoStr == null || valorAlvoStr.trim().isEmpty() ||
                 valorAtualStr == null || valorAtualStr.trim().isEmpty() ||
@@ -182,7 +176,6 @@ public class MetaServlet extends HttpServlet {
                 statusMeta == null || statusMeta.trim().isEmpty() ||
                 prioridade == null || prioridade.trim().isEmpty()) {
                 request.setAttribute("mensagemErro", "Todos os campos da meta são obrigatórios.");
-                // Ao encaminhar, precisamos da meta novamente para preencher o formulário
                 Meta metaExistente = metaDAO.buscarMetaPorId(idMeta);
                 request.setAttribute("meta", metaExistente);
                 request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
@@ -200,7 +193,7 @@ public class MetaServlet extends HttpServlet {
                     request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
                     return;
                 }
-                if (valorAtual < 0) { // Valor atual pode ser 0, mas não negativo
+                if (valorAtual < 0) {
                     request.setAttribute("mensagemErro", "O valor atual da meta não pode ser negativo.");
                     Meta metaExistente = metaDAO.buscarMetaPorId(idMeta);
                     request.setAttribute("meta", metaExistente);
@@ -230,8 +223,7 @@ public class MetaServlet extends HttpServlet {
             statusMeta = statusMeta.trim();
             prioridade = prioridade.trim();
 
-            // Criar objeto Meta para atualização (reaproveita data de criação do banco)
-            Meta metaParaAtualizar = metaDAO.buscarMetaPorId(idMeta); // Busca a meta existente para manter dataCriacao
+            Meta metaParaAtualizar = metaDAO.buscarMetaPorId(idMeta);
             if (metaParaAtualizar == null || metaParaAtualizar.getIdUsuario() != idUsuario) {
                 request.setAttribute("mensagemErro", "Meta não encontrada ou você não tem permissão para atualizá-la.");
                 response.sendRedirect(request.getContextPath() + "/metas?action=listar");
@@ -244,7 +236,6 @@ public class MetaServlet extends HttpServlet {
             metaParaAtualizar.setDataAlvo(dataAlvo);
             metaParaAtualizar.setStatusMeta(statusMeta);
             metaParaAtualizar.setPrioridade(prioridade);
-            // O ID e ID_USUARIO já estão corretos no objeto metaParaAtualizar
 
             boolean atualizado = metaDAO.atualizarMeta(metaParaAtualizar);
 
@@ -252,11 +243,10 @@ public class MetaServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/metas?action=listar&atualizacaoMetaSucesso=true");
             } else {
                 request.setAttribute("mensagemErro", "Erro ao atualizar meta. Verifique os dados e tente novamente.");
-                request.setAttribute("meta", metaParaAtualizar); // Envia de volta a meta para re-preencher o form
+                request.setAttribute("meta", metaParaAtualizar);
                 request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
             }
         } else {
-            // Se o action for desconhecido no POST, apenas redireciona para a lista
             response.sendRedirect(request.getContextPath() + "/metas?action=listar");
         }
     }

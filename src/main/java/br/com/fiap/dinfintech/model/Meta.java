@@ -7,28 +7,26 @@ public class Meta {
     private int idUsuario;
     private String descricao;
     private double valorAlvo;
-    private double valorAtual; // Novo campo
-    private LocalDate dataCriacao; // Novo campo
+    private double valorAtual;
+    private LocalDate dataCriacao;
     private LocalDate dataAlvo;
-    private String statusMeta; // Renomeado de 'status' para 'statusMeta'
-    private String prioridade; // Novo campo
+    private String statusMeta;
+    private String prioridade;
 
     public Meta() {
     }
 
-    // Constructor for creating new Meta (from form, without idMeta or dataCriacao initially)
     public Meta(int idUsuario, String descricao, double valorAlvo, LocalDate dataAlvo, String statusMeta, String prioridade) {
         this.idUsuario = idUsuario;
         this.descricao = descricao;
         this.valorAlvo = valorAlvo;
-        this.valorAtual = 0.0; // Valor inicial para nova meta, será DEFAULT 0 no banco
-        this.dataCriacao = LocalDate.now(); // Define a data de criação como a data atual
+        this.valorAtual = 0.0;
+        this.dataCriacao = LocalDate.now();
         this.dataAlvo = dataAlvo;
         this.statusMeta = statusMeta;
         this.prioridade = prioridade;
     }
 
-    // Constructor for retrieving Meta from DB (with all fields)
     public Meta(int idMeta, int idUsuario, String descricao, double valorAlvo, double valorAtual, LocalDate dataCriacao, LocalDate dataAlvo, String statusMeta, String prioridade) {
         this.idMeta = idMeta;
         this.idUsuario = idUsuario;
@@ -41,7 +39,6 @@ public class Meta {
         this.prioridade = prioridade;
     }
 
-    // Getters
     public int getIdMeta() {
         return idMeta;
     }

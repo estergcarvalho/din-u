@@ -7,28 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Din+</title>
     <style>
-        /* CSS INLINE PARA A TELA DE CADASTRO */
-        /* Cores principais: #f7931e (laranja), #fff (branco), #333 (preto/cinza escuro para texto) */
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais moderna */
-            background-color: #f0f2f5; /* Cor de fundo suave */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: #333; /* Cor de texto padrão para o projeto */
+            color: #333;
         }
 
-        /* Container Principal para Telas de Autenticação (Login/Cadastro) */
         .auth-container {
-            display: flex; /* Habilita flexbox para as colunas */
+            display: flex;
             background-color: #fff;
-            border-radius: 12px; /* Cantos mais arredondados */
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); /* Sombra mais suave e pronunciada */
-            overflow: hidden; /* Garante que os cantos arredondados funcionem */
-            width: 950px; /* Largura total ligeiramente maior */
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            width: 950px;
             max-width: 95vw;
             min-height: 580px;
         }

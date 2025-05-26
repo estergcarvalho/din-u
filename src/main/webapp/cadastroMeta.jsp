@@ -135,12 +135,12 @@
     .form-group input[type="number"],
     .form-group input[type="date"],
     .form-group select {
-      width: calc(100% - 20px); /* Ajuste para padding */
+      width: calc(100% - 20px);
       padding: 12px;
       border: 1px solid #ddd;
       border-radius: 5px;
       font-size: 16px;
-      box-sizing: border-box; /* Garante que padding não aumente a largura */
+      box-sizing: border-box;
     }
 
     .form-group input[type="submit"] {
@@ -176,7 +176,7 @@
       color: white;
       text-align: center;
       padding: 20px 0;
-      margin-top: auto; /* Empurra o rodapé para baixo */
+      margin-top: auto;
     }
     .footer i {
       margin-right: 8px;
@@ -185,16 +185,13 @@
 </head>
 <body>
 <%
-  // Recupera o usuário da sessão
   Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-  // Verifica se o usuário está logado
   if (usuarioLogado == null) {
     response.sendRedirect(request.getContextPath() + "/login.jsp");
     return;
   }
 
-  // Pega mensagens de erro ou sucesso
   String mensagemErro = (String) request.getAttribute("mensagemErro");
   String mensagemSucesso = (String) request.getAttribute("mensagemSucesso");
 %>

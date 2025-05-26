@@ -25,7 +25,7 @@ public class DespesaServlet extends HttpServlet {
 
     public void init() throws ServletException {
         this.despesaDao = new DespesaDao();
-        this.categoriaDao = new CategoriaDao(); // Inicializa o DAO de categoria
+        this.categoriaDao = new CategoriaDao();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,8 +39,6 @@ public class DespesaServlet extends HttpServlet {
                 mostrarFormularioCadastro(request, response);
                 break;
             case "listar":
-                // Aqui você pode adicionar lógica para listar despesas se precisar
-                // Para o seu caso, home.jsp já faz isso diretamente
                 response.sendRedirect(request.getContextPath() + "/home.jsp");
                 break;
             default:
@@ -71,7 +69,6 @@ public class DespesaServlet extends HttpServlet {
         }
 
         CategoriaDao categoriaDao = new CategoriaDao();
-        // Lista apenas categorias de DESPESA para o usuário logado (incluindo pré-definidas)
         List<Categoria> categoriasDespesa = categoriaDao.listarCategoriasPorUsuarioETipo(usuarioLogado.getIdUsuario(), "DESPESA");
         request.setAttribute("categoriasDespesa", categoriasDespesa);
 
@@ -93,29 +90,26 @@ public class DespesaServlet extends HttpServlet {
             int idCategoriaSelecionada = Integer.parseInt(request.getParameter("categoriaId")); // Recebe o ID da categoria
 
             DespesaDao despesaDAO = new DespesaDao();
-            CategoriaDao categoriaDAO = new CategoriaDao(); // Instancia CategoriaDao
+            CategoriaDao categoriaDAO = new CategoriaDao();
 
-            // 1. Busque o objeto Categoria completo pelo ID
             Categoria categoria = categoriaDAO.buscarCategoriaPorId(idCategoriaSelecionada);
 
-            if (categoria != null && categoria.getTipo().equals("DESPESA")) { // Valida se a categoria é de despesa
+            if (categoria != null && categoria.getTipo().equals("DESPESA")) {
                 Despesa despesa = new Despesa(usuarioLogado.getIdUsuario(), descricao, valor, dataDespesa, categoria);
 
                 if (despesaDAO.cadastrarDespesa(despesa)) {
                     response.sendRedirect(request.getContextPath() + "/home.jsp?cadastroDespesaSucesso=true");
                 } else {
                     request.setAttribute("mensagemErro", "Erro ao cadastrar despesa no banco de dados.");
-                    // Re-popula as categorias para o formulário
                     mostrarFormularioCadastro(request, response);
                 }
             } else {
                 request.setAttribute("mensagemErro", "Categoria selecionada inválida ou não é uma categoria de despesa.");
-                // Re-popula as categorias para o formulário
                 mostrarFormularioCadastro(request, response);
             }
         } catch (NumberFormatException e) {
             request.setAttribute("mensagemErro", "Valor ou categoria inválido. Certifique-se de usar números e selecionar uma categoria.");
-            mostrarFormularioCadastro(request, response); // Retorna ao formulário com erro
+            mostrarFormularioCadastro(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagemErro", "Ocorreu um erro inesperado: " + e.getMessage());

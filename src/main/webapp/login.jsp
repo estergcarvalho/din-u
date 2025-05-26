@@ -7,10 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Din+</title>
     <style>
-        /* CSS INLINE PARA A TELA DE LOGIN */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5; /* Cor de fundo suave */
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,19 +17,19 @@
             margin: 0;
         }
 
-        .auth-container { /* Container principal para as telas de login/cadastro */
-            display: flex; /* Habilita flexbox para as colunas */
+        .auth-container {
+            display: flex;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden; /* Garante que os cantos arredondados funcionem */
-            width: 900px; /* Largura total do container */
-            max-width: 90vw; /* Responsividade */
-            min-height: 550px; /* Altura mínima para o conteúdo */
+            overflow: hidden;
+            width: 900px;
+            max-width: 90vw;
+            min-height: 550px;
         }
 
-        .left-panel { /* Painel da Esquerda (laranja - usado aqui para o lado direito no login) */
-            background-color: #f7931e; /* Cor laranja */
+        .left-panel {
+            background-color: #f7931e;
             color: white;
             padding: 40px;
             display: flex;
@@ -38,7 +37,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            flex: 1; /* Ocupa espaço igual */
+            flex: 1;
         }
 
         .left-panel .logo {
@@ -53,7 +52,7 @@
             margin-bottom: 30px;
         }
 
-        .left-panel .btn-entrar { /* Botão branco no painel laranja */
+        .left-panel .btn-entrar {
             background-color: white;
             color: #f7931e;
             padding: 12px 30px;
@@ -62,7 +61,7 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            text-decoration: none; /* Para parecer um botão */
+            text-decoration: none;
             transition: background-color 0.3s ease;
         }
 
@@ -70,10 +69,10 @@
             background-color: #eee;
         }
 
-        .right-panel { /* Painel da Direita (branco - usado aqui para o lado esquerdo no login) */
+        .right-panel {
             background-color: #fff;
             padding: 40px;
-            flex: 1; /* Ocupa espaço igual */
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -83,7 +82,7 @@
         .right-panel .logo {
             font-size: 40px;
             font-weight: bold;
-            color: #f7931e; /* Cor laranja */
+            color: #f7931e;
             margin-bottom: 10px;
         }
 
@@ -95,21 +94,21 @@
 
         .form-group {
             margin-bottom: 20px;
-            text-align: left; /* Alinhar campos de texto à esquerda */
+            text-align: left;
         }
 
         .form-group input[type="text"],
         .form-group input[type="email"],
         .form-group input[type="password"] {
-            width: 100%; /* Ocupa toda a largura do seu contêiner */
+            width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 16px;
-            box-sizing: border-box; /* Inclui padding e borda na largura */
+            box-sizing: border-box;
         }
 
-        .right-panel .btn-submit { /* Botão laranja no painel branco */
+        .right-panel .btn-submit {
             background-color: #f7931e;
             color: white;
             padding: 15px 30px;
@@ -147,7 +146,6 @@
     <div class="logo">Din+</div>
     <h3>Login</h3>
 
-    <%-- Mensagens de erro/sucesso do LoginServlet --%>
     <% String mensagemErro = (String) request.getAttribute("mensagemErro"); %>
     <% String cadastroSucesso = request.getParameter("cadastroSucesso"); %>
 

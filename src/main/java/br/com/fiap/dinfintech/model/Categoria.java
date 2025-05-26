@@ -2,23 +2,21 @@ package br.com.fiap.dinfintech.model;
 
 public class Categoria {
     private int idCategoria;
-    private int idUsuario; // Para categorias personalizadas por usuário
+    private int idUsuario;
     private String nome;
-    private String tipo; // Ex: "Despesa", "Receita"
-    private boolean preDefinida; // Indica se é uma categoria do sistema ou criada pelo usuário
+    private String tipo;
+    private boolean preDefinida;
 
     public Categoria() {
     }
 
-    // Construtor para categorias criadas pelo usuário
     public Categoria(int idUsuario, String nome, String tipo) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.tipo = tipo;
-        this.preDefinida = false; // Usuário sempre cria categorias não pre-definidas
+        this.preDefinida = false;
     }
 
-    // Construtor para categorias recuperadas do banco (incluindo as pre-definidas)
     public Categoria(int idCategoria, int idUsuario, String nome, String tipo, boolean preDefinida) {
         this.idCategoria = idCategoria;
         this.idUsuario = idUsuario;
@@ -27,7 +25,7 @@ public class Categoria {
         this.preDefinida = preDefinida;
     }
 
-    // Getters
+
     public int getIdCategoria() {
         return idCategoria;
     }
@@ -48,7 +46,6 @@ public class Categoria {
         return preDefinida;
     }
 
-    // Setters
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }

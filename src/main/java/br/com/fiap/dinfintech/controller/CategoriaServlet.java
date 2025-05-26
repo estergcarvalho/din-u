@@ -32,15 +32,12 @@ public class CategoriaServlet extends HttpServlet {
         }
 
         if ("cadastrar".equals(action)) {
-            // Encaminha para a página de formulário de cadastro de categoria
             request.getRequestDispatcher("/cadastroCategoria.jsp").forward(request, response);
         } else if ("listar".equals(action)) {
-            // Lista todas as categorias disponíveis para o usuário logado
             List<Categoria> categorias = categoriaDao.listarCategoriasPorUsuarioETipo(usuarioLogado.getIdUsuario(), null); // Pega todos os tipos
             request.setAttribute("listaCategorias", categorias);
             request.getRequestDispatcher("/listaCategorias.jsp").forward(request, response);
         } else {
-            // Ação padrão: listar categorias
             response.sendRedirect(request.getContextPath() + "/categorias?action=listar");
         }
     }
@@ -55,7 +52,6 @@ public class CategoriaServlet extends HttpServlet {
         }
         int idUsuario = usuarioLogado.getIdUsuario();
 
-        // 1. Obter parâmetros do formulário
         String nome = request.getParameter("nome");
         String tipo = request.getParameter("tipo");
 

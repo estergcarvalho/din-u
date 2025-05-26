@@ -137,12 +137,12 @@
         .form-group input[type="number"],
         .form-group input[type="date"],
         .form-group select {
-            width: calc(100% - 20px); /* Ajuste para padding */
+            width: calc(100% - 20px);
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
-            box-sizing: border-box; /* Garante que padding não aumente a largura */
+            box-sizing: border-box;
         }
 
         .form-group input[type="submit"] {
@@ -194,7 +194,7 @@
     }
     String mensagemErro = (String) request.getAttribute("mensagemErro");
     String mensagemSucesso = (String) request.getAttribute("mensagemSucesso");
-    // Recupera a lista de categorias de despesa
+
     List<Categoria> categoriasDespesa = (List<Categoria>) request.getAttribute("categoriasDespesa");
 %>
 
@@ -256,10 +256,8 @@
                 <label for="categoriaId">Categoria:</label>
                 <select id="categoriaId" name="categoriaId" required> <option value="">Selecione uma categoria</option>
                     <%
-                        // Popula o select com as categorias dinamicamente
                         if (categoriasDespesa != null && !categoriasDespesa.isEmpty()) {
                             for (Categoria cat : categoriasDespesa) {
-                                // MUDAR: value para o ID da categoria
                     %>
                     <option value="<%= cat.getIdCategoria() %>"><%= cat.getNome() %></option>
                     <%

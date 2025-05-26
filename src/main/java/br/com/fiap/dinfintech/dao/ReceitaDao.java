@@ -17,35 +17,31 @@ public class ReceitaDao {
         PreparedStatement stmt = null;
         boolean sucesso = false;
         ResultSet rs = null;
-        PreparedStatement stmtGetId = null; // NOVO: PreparedStatement para obter o ID
+        PreparedStatement stmtGetId = null;
 
         try {
             conn = ConnectionManager.getInstance().getConnection();
-            conn.setAutoCommit(false); // Inicia uma transação
+            conn.setAutoCommit(false);
 
-            // **** MUDANÇA AQUI: Obter o próximo ID da sequence ANTES da inserção ****
             String sqlGetNextId = "SELECT SQ_T_DIN_RECEITAS_ID.NEXTVAL FROM DUAL";
             stmtGetId = conn.prepareStatement(sqlGetNextId);
             rs = stmtGetId.executeQuery();
             if (rs.next()) {
                 int nextId = rs.getInt(1);
-                receita.setIdReceita(nextId); // Define o ID gerado na receita
+                receita.setIdReceita(nextId);
             } else {
                 System.err.println("Erro: Não foi possível obter o próximo ID da sequência para receita.");
-                return false; // Sai se o ID não puder ser obtido
+                return false;
             }
-            // Fechar os recursos para obter o ID antes de continuar
             rs.close();
             stmtGetId.close();
-            rs = null; // Reseta para evitar uso indevido no finally
-            stmtGetId = null; // Reseta para evitar uso indevido no finally
+            rs = null;
+            stmtGetId = null;
 
-            // Inserção da receita
-            // **** MUDANÇA AQUI: Incluir ID_RECEITA na query de INSERT ****
             String sqlReceita = "INSERT INTO T_DIN_RECEITAS (ID_RECEITA, ID_USUARIO, DESCRICAO, VALOR, DATA_RECEITA, TIPO_RECEITA) VALUES (?, ?, ?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sqlReceita); // Não precisa mais de Statement.RETURN_GENERATED_KEYS
+            stmt = conn.prepareStatement(sqlReceita);
 
-            stmt.setInt(1, receita.getIdReceita()); // Define o ID que você já obteve
+            stmt.setInt(1, receita.getIdReceita());
             stmt.setInt(2, receita.getIdUsuario());
             stmt.setString(3, receita.getDescricao());
             stmt.setDouble(4, receita.getValor());
@@ -55,10 +51,6 @@ public class ReceitaDao {
             int linhasAfetadas = stmt.executeUpdate();
 
             if (linhasAfetadas > 0) {
-                // Não precisa mais de rs = stmt.getGeneratedKeys();
-                // Não precisa mais do bloco if (rs.next()) para setIdReceita
-
-                // Atualizar o saldo do usuário: SALDO = SALDO + VALOR_RECEITA
                 String sqlUpdateSaldo = "UPDATE T_DIN_USUARIO SET SALDO = SALDO + ? WHERE ID_USUARIO = ?";
                 PreparedStatement stmtUpdateSaldo = conn.prepareStatement(sqlUpdateSaldo);
                 stmtUpdateSaldo.setDouble(1, receita.getValor());
@@ -68,11 +60,11 @@ public class ReceitaDao {
 
                 sucesso = true;
             }
-            conn.commit(); // Confirma a transação se tudo deu certo
+            conn.commit();
         } catch (SQLException e) {
             if (conn != null) {
                 try {
-                    conn.rollback(); // Desfaz a transação em caso de erro
+                    conn.rollback();
                 } catch (SQLException ex) {
                     System.err.println("Erro ao fazer rollback da transação de receita: " + ex.getMessage());
                     ex.printStackTrace();
@@ -81,9 +73,7 @@ public class ReceitaDao {
             System.err.println("Erro ao cadastrar receita: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            // Fechar o PreparedStatement usado para obter o ID, se ele foi aberto
             ConnectionManager.getInstance().closeConnection(null, stmtGetId, null);
-            // Fechar os recursos principais
             ConnectionManager.getInstance().closeConnection(conn, stmt, rs);
         }
         return sucesso;

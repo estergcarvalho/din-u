@@ -11,12 +11,11 @@ public class Usuario {
     private String sexo;
     private String email;
     private String senha;
-    private double saldo; // NOVO: Atributo para armazenar o saldo
+    private double saldo;
 
     public Usuario() {
     }
 
-    // Construtor para cadastro (sem ID e sem saldo inicial)
     public Usuario(String nome, String sobrenome, String dtNascimento, String cpf, String sexo, String email, String senha) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -25,10 +24,9 @@ public class Usuario {
         this.sexo = sexo;
         this.email = email;
         this.senha = senha;
-        this.saldo = 0.0; // Saldo inicial pode ser 0
+        this.saldo = 0.0;
     }
 
-    // Construtor completo (útil para recuperar do banco) - ADICIONE O SALDO AQUI
     public Usuario(int idUsuario, String nome, String sobrenome, String dtNascimento, String cpf, String sexo, String email, String senha, double saldo) {
         this.idUsuario = idUsuario;
         this.nome = nome;
@@ -46,9 +44,7 @@ public class Usuario {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.saldo = 0.0; // Assume saldo inicial 0, já que não é buscado nesta query
-        // Outros campos (sobrenome, dtNascimento, cpf, sexo) serão nulos/padrão,
-        // pois não são fornecidos por este construtor.
+        this.saldo = 0.0;
     }
 
     public double getSaldo() {

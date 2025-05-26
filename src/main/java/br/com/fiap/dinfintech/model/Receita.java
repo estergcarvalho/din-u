@@ -1,17 +1,15 @@
-// src/main/java/br/com/fiap/dinfintech/model/Receita.java
 package br.com.fiap.dinfintech.model;
 
 import java.time.LocalDate;
 
 public class Receita {
     private int idReceita;
-    private int idUsuario; // Para vincular a receita ao usuário logado
+    private int idUsuario;
     private String descricao;
     private double valor;
-    private LocalDate dataReceita; // Data da receita
-    private String tipoReceita; // Ex: "Salário", "Freelance", "Rendimentos", "Outros"
+    private LocalDate dataReceita;
+    private String tipoReceita;
 
-    // Construtor para cadastro (sem ID, pois será gerado pelo BD)
     public Receita(int idUsuario, String descricao, double valor, LocalDate dataReceita, String tipoReceita) {
         this.idUsuario = idUsuario;
         this.descricao = descricao;
@@ -20,7 +18,6 @@ public class Receita {
         this.tipoReceita = tipoReceita;
     }
 
-    // Construtor completo (para recuperar do BD)
     public Receita(int idReceita, int idUsuario, String descricao, double valor, LocalDate dataReceita, String tipoReceita) {
         this.idReceita = idReceita;
         this.idUsuario = idUsuario;
@@ -30,7 +27,6 @@ public class Receita {
         this.tipoReceita = tipoReceita;
     }
 
-    // Getters e Setters
     public int getIdReceita() {
         return idReceita;
     }

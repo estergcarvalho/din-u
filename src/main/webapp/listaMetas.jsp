@@ -98,12 +98,11 @@
       padding: 0;
     }
 
-    /* Ajustes para ocupar a largura total */
     .container {
       flex-grow: 1;
       padding: 20px;
-      max-width: 1200px; /* Aumentei o max-width para ocupar mais espaço */
-      width: 90%; /* Define uma largura percentual para ser mais responsiva */
+      max-width: 1200px;
+      width: 90%;
       margin: 20px auto;
       background-color: #fff;
       border-radius: 10px;
@@ -118,8 +117,8 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
       transition: transform 0.2s ease-in-out;
       margin-bottom: 15px;
-      width: 100%; /* Faz o card ocupar a largura total do container */
-      box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura */
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .meta-card:hover {
@@ -158,10 +157,9 @@
       height: 100%;
       border-radius: 5px;
       width: 0%;
-      transition: width 0.5s ease-in-out; /* Adiciona transição para a barra */
+      transition: width 0.5s ease-in-out;
     }
 
-    /* Estilos do status - Mantenho caso queira usar em outro lugar ou um dia */
     .meta-card .status {
       font-weight: bold;
       padding: 5px 10px;
@@ -192,41 +190,35 @@
       margin-right: 8px;
     }
 
-    /* Estilos para os botões de ação */
     .actions {
       display: flex;
-      gap: 10px; /* Espaço entre os ícones */
+      gap: 10px;
     }
     .actions a {
-      color: #777; /* Cor padrão para os ícones */
+      color: #777;
       font-size: 18px;
       cursor: pointer;
       text-decoration: none;
       transition: color 0.2s ease-in-out;
     }
     .actions a:hover {
-      color: #f7931e; /* Cor ao passar o mouse */
+      color: #f7931e;
     }
     .actions .delete-btn:hover {
-      color: #dc3545; /* Vermelho para o botão de excluir */
+      color: #dc3545;
     }
   </style>
 </head>
 <body>
 <%
-  // Recupera o usuário da sessão
   Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-  // Verifica se o usuário está logado
   if (usuarioLogado == null) {
     response.sendRedirect(request.getContextPath() + "/login.jsp");
     return;
   }
 
-  // Recupera a lista de metas do request
   List<Meta> listaMetas = (List<Meta>) request.getAttribute("listaMetas");
-
-  // Formatador para datas (mantido, mas não tão usado no novo layout)
   DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 %>
 
@@ -269,12 +261,10 @@
         double percentualConcluido = 0;
         if (meta.getValorAlvo() > 0) {
           percentualConcluido = (meta.getValorAtual() / meta.getValorAlvo()) * 100;
-          // Garante que o percentual não ultrapasse 100% visualmente na barra
           if (percentualConcluido > 100) {
             percentualConcluido = 100;
           }
         }
-        // Formatação dos valores monetários
         String valorAtualFormatado = String.format("%,.2f", meta.getValorAtual()); // Com centavos
         String valorAlvoFormatado = String.format("%,.2f", meta.getValorAlvo()); // Com centavos
       %>
@@ -284,7 +274,6 @@
       </div>
       <p style="text-align: right; color: #777;">R$ <%= valorAlvoFormatado %></p>
 
-      <%-- Informações adicionais podem ser exibidas aqui se necessário, fora do foco principal --%>
       <div style="font-size: 12px; color: #999; margin-top: 10px; border-top: 1px solid #eee; padding-top: 5px;">
         <p>Criada em: <%= meta.getDataCriacao().format(dateFormatter) %></p>
         <p>Data Alvo: <%= (meta.getDataAlvo() != null) ? meta.getDataAlvo().format(dateFormatter) : "Não definida" %></p>
