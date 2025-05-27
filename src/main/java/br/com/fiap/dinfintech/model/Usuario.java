@@ -1,5 +1,3 @@
-// br.com.fiap.dinfintech.model.Usuario.java
-
 package br.com.fiap.dinfintech.model;
 
 public class Usuario {

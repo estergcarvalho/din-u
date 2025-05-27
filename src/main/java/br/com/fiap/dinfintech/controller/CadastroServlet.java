@@ -2,7 +2,7 @@ package br.com.fiap.dinfintech.controller;
 
 import br.com.fiap.dinfintech.dao.UsuarioDao;
 import br.com.fiap.dinfintech.model.Usuario;
-import jakarta.servlet.ServletException; // Use jakarta.servlet
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

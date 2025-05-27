@@ -1,10 +1,10 @@
 package br.com.fiap.dinfintech.controller;
 
 import br.com.fiap.dinfintech.dao.DespesaDao;
-import br.com.fiap.dinfintech.dao.CategoriaDao; // NOVO IMPORT
+import br.com.fiap.dinfintech.dao.CategoriaDao;
 import br.com.fiap.dinfintech.model.Despesa;
 import br.com.fiap.dinfintech.model.Usuario;
-import br.com.fiap.dinfintech.model.Categoria; // NOVO IMPORT
+import br.com.fiap.dinfintech.model.Categoria;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,9 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.List; // NOVO IMPORT
-
+import java.util.List;
 @WebServlet("/despesas")
 public class DespesaServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;

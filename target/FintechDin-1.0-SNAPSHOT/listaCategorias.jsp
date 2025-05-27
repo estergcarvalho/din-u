@@ -88,6 +88,7 @@
             <li><a href="<%= request.getContextPath() %>/home.jsp">Página inicial</a></li>
             <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
             <li><a href="<%= request.getContextPath() %>/metas?action=listar">Metas</a></li>
+            <li><a href="<%= request.getContextPath() %>/resumo">Resumo Mensal</a></li>
             <li class="dropdown">
                 <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>
                 <div class="dropdown-content">

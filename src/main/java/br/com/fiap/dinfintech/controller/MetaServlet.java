@@ -48,7 +48,6 @@ public class MetaServlet extends HttpServlet {
 
                 if (meta != null && meta.getIdUsuario() == idUsuario) {
                     request.setAttribute("meta", meta);
-                    // ***** CORREÇÃO AQUI: REDIRECIONAR PARA edicaoMeta.jsp *****
                     request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
                 } else {
                     request.setAttribute("mensagemErro", "Meta não encontrada ou você não tem permissão para editá-la.");
@@ -201,10 +200,10 @@ public class MetaServlet extends HttpServlet {
                     request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
                     return;
                 }
-                // Lógica para auto-completar status para "Concluída" se valorAtual >= valorAlvo
+
                 if (valorAtual >= valorAlvo) {
-                    valorAtual = valorAlvo; // Garante que não ultrapasse o alvo visualmente
-                    statusMeta = "Concluída"; // Atualiza o status automaticamente
+                    valorAtual = valorAlvo;
+                    statusMeta = "Concluída";
                 }
             } catch (NumberFormatException e) {
                 request.setAttribute("mensagemErro", "Valor alvo ou valor atual da meta inválido.");

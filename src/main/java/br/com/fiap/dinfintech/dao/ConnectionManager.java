@@ -51,10 +51,6 @@ public class ConnectionManager {
         }
     }
 
-    public void closeConnection(Connection connection, java.sql.PreparedStatement stmt) {
-        closeConnection(connection, stmt, null);
-    }
-
     public void closeConnection(Connection connection) {
         closeConnection(connection, null, null);
     }

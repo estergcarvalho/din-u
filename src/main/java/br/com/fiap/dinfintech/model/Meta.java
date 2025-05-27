@@ -1,4 +1,3 @@
-// Exemplo de como sua classe Meta deve ser (adicione 'valorAtual' se ainda não tiver)
 package br.com.fiap.dinfintech.model;
 
 import java.time.LocalDate;

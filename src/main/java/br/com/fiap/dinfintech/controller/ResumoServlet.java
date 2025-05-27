@@ -61,7 +61,7 @@ public class ResumoServlet extends HttpServlet {
                 ano = Integer.parseInt(anoParam);
             }
         } catch (NumberFormatException e) {
-            // Se os parâmetros forem inválidos, usa mês/ano atual
+            System.err.println("Parâmetro de mês ou ano inválido recebido: " + e.getMessage());
         }
 
         double totalReceitas = receitaDao.getTotalReceitasPorMes(idUsuario, mes, ano);

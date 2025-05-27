@@ -113,11 +113,12 @@ public class UsuarioDao {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
+                int idUsuarioDb = rs.getInt("ID_USUARIO");
                 String nome = rs.getString("NOME");
                 String emailDb = rs.getString("EMAIL");
                 String senhaDb = rs.getString("SENHA");
 
-                Usuario usuario1 = new Usuario();
+                usuario = new Usuario(idUsuarioDb, nome, emailDb, senhaDb);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao buscar usuário por ID: " + e.getMessage());

@@ -139,7 +139,6 @@
     }
     .logout-btn {
       background-color: transparent;
-      border: 1px solid white;
       color: white;
       font-size: 16px;
       cursor: pointer;

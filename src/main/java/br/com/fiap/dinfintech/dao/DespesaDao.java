@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,8 +156,8 @@ public class DespesaDao {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String sql = "SELECT NVL(SUM(VALOR), 0) AS TOTAL_DESPESAS FROM T_DIN_DESPESAS " + // Ajustei o nome da coluna para VALOR
-            "WHERE ID_USUARIO = ? AND EXTRACT(MONTH FROM DATA_DESPESA) = ? AND EXTRACT(YEAR FROM DATA_DESPESA) = ?"; // Ajustei o nome da tabela e coluna de data
+        String sql = "SELECT NVL(SUM(VALOR), 0) AS TOTAL_DESPESAS FROM T_DIN_DESPESAS " +
+            "WHERE ID_USUARIO = ? AND EXTRACT(MONTH FROM DATA_DESPESA) = ? AND EXTRACT(YEAR FROM DATA_DESPESA) = ?";
 
         try {
             conn = ConnectionManager.getInstance().getConnection();
