@@ -108,4 +108,33 @@ public class ReceitaDao {
         }
         return receitas;
     }
+
+    public double getTotalReceitasPorMes(int idUsuario, int mes, int ano) {
+        double total = 0.0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT NVL(SUM(VALOR), 0) AS TOTAL_RECEITAS FROM T_DIN_RECEITAS " +
+            "WHERE ID_USUARIO = ? AND EXTRACT(MONTH FROM DATA_RECEITA) = ? AND EXTRACT(YEAR FROM DATA_RECEITA) = ?";
+
+        try {
+            conn = ConnectionManager.getInstance().getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, mes);
+            stmt.setInt(3, ano);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("TOTAL_RECEITAS");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao obter total de receitas por mês: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.getInstance().closeConnection(conn, stmt, rs);
+        }
+        return total;
+    }
 }

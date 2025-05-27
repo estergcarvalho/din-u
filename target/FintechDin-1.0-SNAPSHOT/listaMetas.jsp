@@ -153,10 +153,11 @@
     }
 
     .progress-bar {
-      background-color: #f7931e;
+      /* Cor da barra de progresso */
+      background-color: #f7931e; /* Cor padrão, pode ser ajustada com JS se quiser variações */
       height: 100%;
       border-radius: 5px;
-      width: 0%;
+      width: 0%; /* Será preenchido via JSP */
       transition: width 0.5s ease-in-out;
     }
 
@@ -233,8 +234,9 @@
         <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>
         <div class="dropdown-content">
           <a href="<%= request.getContextPath() %>/despesas?action=cadastrar">Nova Despesa</a>
-          <a href="#">Nova Receita</a>
+          <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a>
           <a href="<%= request.getContextPath() %>/metas?action=cadastrar">Nova Meta</a>
+          <a href="<%= request.getContextPath() %>/categorias?action=cadastrar">Nova Categoria</a>
         </div>
       </li>
     </ul>
@@ -264,14 +266,13 @@
             percentualConcluido = 100;
           }
         }
-        String valorAtualFormatado = String.format("%,.2f", meta.getValorAtual()); // Com centavos
-        String valorAlvoFormatado = String.format("%,.2f", meta.getValorAlvo()); // Com centavos
+        String valorAtualFormatado = String.format("%,.2f", meta.getValorAtual());
+        String valorAlvoFormatado = String.format("%,.2f", meta.getValorAlvo());
       %>
-      <p>R$ <%= valorAtualFormatado %> <span style="color: #777;"> (<%= String.format("%.0f", percentualConcluido) %>%)</span></p>
+      <p>R$ <%= valorAtualFormatado %> / R$ <%= valorAlvoFormatado %> <span style="color: #777;"> (<%= String.format("%.0f", percentualConcluido) %>%)</span></p>
       <div class="progress-bar-container">
         <div class="progress-bar" style="width: <%= String.format("%.0f", percentualConcluido) %>%;"></div>
       </div>
-      <p style="text-align: right; color: #777;">R$ <%= valorAlvoFormatado %></p>
 
       <div style="font-size: 12px; color: #999; margin-top: 10px; border-top: 1px solid #eee; padding-top: 5px;">
         <p>Criada em: <%= meta.getDataCriacao().format(dateFormatter) %></p>

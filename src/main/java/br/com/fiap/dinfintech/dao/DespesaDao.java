@@ -21,7 +21,7 @@ public class DespesaDao {
         PreparedStatement stmt = null;
         boolean sucesso = false;
         ResultSet rs = null;
-        PreparedStatement stmtGetId = null; // <-- NOVO: PreparedStatement para obter o ID
+        PreparedStatement stmtGetId = null;
 
         try {
             conn = ConnectionManager.getInstance().getConnection();
@@ -149,5 +149,34 @@ public class DespesaDao {
             ConnectionManager.getInstance().closeConnection(conn, stmt, rs);
         }
         return totalPorCategoria;
+    }
+
+    public double getTotalDespesasPorMes(int idUsuario, int mes, int ano) {
+        double total = 0.0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT NVL(SUM(VALOR), 0) AS TOTAL_DESPESAS FROM T_DIN_DESPESAS " + // Ajustei o nome da coluna para VALOR
+            "WHERE ID_USUARIO = ? AND EXTRACT(MONTH FROM DATA_DESPESA) = ? AND EXTRACT(YEAR FROM DATA_DESPESA) = ?"; // Ajustei o nome da tabela e coluna de data
+
+        try {
+            conn = ConnectionManager.getInstance().getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, mes);
+            stmt.setInt(3, ano);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("TOTAL_DESPESAS");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao obter total de despesas por mês: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.getInstance().closeConnection(conn, stmt, rs);
+        }
+        return total;
     }
 }

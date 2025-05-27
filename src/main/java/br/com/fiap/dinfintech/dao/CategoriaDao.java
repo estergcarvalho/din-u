@@ -22,7 +22,6 @@ public class CategoriaDao {
             String sql = "INSERT INTO T_DIN_CATEGORIAS (ID_USUARIO, NOME, TIPO, PRE_DEFINIDA) VALUES (?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            // Se for uma categoria de usuário, defina o ID_USUARIO; caso contrário, NULL.
             if (categoria.getIdUsuario() > 0) {
                 stmt.setInt(1, categoria.getIdUsuario());
             } else {

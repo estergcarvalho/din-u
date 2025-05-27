@@ -48,6 +48,7 @@ public class MetaServlet extends HttpServlet {
 
                 if (meta != null && meta.getIdUsuario() == idUsuario) {
                     request.setAttribute("meta", meta);
+                    // ***** CORREÇÃO AQUI: REDIRECIONAR PARA edicaoMeta.jsp *****
                     request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
                 } else {
                     request.setAttribute("mensagemErro", "Meta não encontrada ou você não tem permissão para editá-la.");
@@ -149,7 +150,7 @@ public class MetaServlet extends HttpServlet {
             String idMetaStr = request.getParameter("idMeta");
             if (idMetaStr == null || idMetaStr.isEmpty()) {
                 request.setAttribute("mensagemErro", "ID da meta não fornecido para atualização.");
-                request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response); // Ou redirecionar para a lista
+                response.sendRedirect(request.getContextPath() + "/metas?action=listar");
                 return;
             }
             int idMeta;
@@ -176,7 +177,7 @@ public class MetaServlet extends HttpServlet {
                 statusMeta == null || statusMeta.trim().isEmpty() ||
                 prioridade == null || prioridade.trim().isEmpty()) {
                 request.setAttribute("mensagemErro", "Todos os campos da meta são obrigatórios.");
-                Meta metaExistente = metaDAO.buscarMetaPorId(idMeta);
+                Meta metaExistente = metaDAO.buscarMetaPorId(idMeta); // Busca para manter os dados no formulário
                 request.setAttribute("meta", metaExistente);
                 request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
                 return;
@@ -199,6 +200,11 @@ public class MetaServlet extends HttpServlet {
                     request.setAttribute("meta", metaExistente);
                     request.getRequestDispatcher("/edicaoMeta.jsp").forward(request, response);
                     return;
+                }
+                // Lógica para auto-completar status para "Concluída" se valorAtual >= valorAlvo
+                if (valorAtual >= valorAlvo) {
+                    valorAtual = valorAlvo; // Garante que não ultrapasse o alvo visualmente
+                    statusMeta = "Concluída"; // Atualiza o status automaticamente
                 }
             } catch (NumberFormatException e) {
                 request.setAttribute("mensagemErro", "Valor alvo ou valor atual da meta inválido.");

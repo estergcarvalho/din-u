@@ -203,12 +203,14 @@
       <li><a href="<%= request.getContextPath() %>/home.jsp">Página inicial</a></li>
       <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
       <li><a href="<%= request.getContextPath() %>/metas?action=listar">Metas</a></li>
+      <li><a href="<%= request.getContextPath() %>/resumo">Resumo Mensal</a></li>
       <li class="dropdown">
         <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>
         <div class="dropdown-content">
           <a href="<%= request.getContextPath() %>/despesas?action=cadastrar">Nova Despesa</a>
-          <a href="#">Nova Receita</a>
+          <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a>
           <a href="<%= request.getContextPath() %>/metas?action=cadastrar">Nova Meta</a>
+          <a href="<%= request.getContextPath() %>/categorias?action=cadastrar">Nova Categoria</a>
         </div>
       </li>
     </ul>
@@ -228,6 +230,7 @@
     <% } %>
 
     <form action="<%= request.getContextPath() %>/metas" method="post">
+      <input type="hidden" name="action" value="cadastrar">
       <div class="form-group">
         <label for="descricao">Descrição da Meta:</label>
         <input type="text" id="descricao" name="descricao" required placeholder="Ex: Juntar para viajar">

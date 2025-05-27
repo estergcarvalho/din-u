@@ -4,7 +4,7 @@
 <%@ page import="br.com.fiap.dinfintech.dao.DespesaDao" %>
 <%@ page import="br.com.fiap.dinfintech.model.Receita" %>
 <%@ page import="br.com.fiap.dinfintech.dao.ReceitaDao" %>
-<%@ page import="br.com.fiap.dinfintech.dao.UsuarioDao" %> <%-- **MUDANÇA 1: NOVO IMPORT** --%>
+<%@ page import="br.com.fiap.dinfintech.dao.UsuarioDao" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %> <%@ page import="java.util.HashMap" %> <%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
@@ -316,6 +316,14 @@
   iconesCategorias.put("Compras", "fas fa-shopping-cart");
   iconesCategorias.put("Mercado", "fas fa-shopping-basket");
   iconesCategorias.put("Serviços", "fas fa-tools");
+  iconesCategorias.put("Salário", "fas fa-money-check-alt");
+  iconesCategorias.put("Freelance", "fas fa-laptop-code");
+  iconesCategorias.put("Investimentos", "fas fa-chart-line");
+  iconesCategorias.put("Presente", "fas fa-gift");
+  iconesCategorias.put("Reembolso", "fas fa-receipt");
+  iconesCategorias.put("Vendas", "fas fa-cash-register");
+  iconesCategorias.put("Renda Extra", "fas fa-piggy-bank");
+  iconesCategorias.put("Ajuste", "fas fa-cogs");
 %>
 
 <div class="header">
@@ -325,6 +333,7 @@
       <li><a href="<%= request.getContextPath() %>/home.jsp">Página inicial</a></li>
       <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
       <li><a href="<%= request.getContextPath() %>/metas?action=listar">Metas</a></li>
+      <li><a href="<%= request.getContextPath() %>/resumo">Resumo Mensal</a></li>
       <li class="dropdown">
         <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>
         <div class="dropdown-content">
@@ -363,10 +372,13 @@
       } else {
         saldoClass += " zero";
       }
+
+      String saldoFormatado = String.format("%.2f", saldoAtual).replace(",", "x").replace(".", ",").replace("x", ".");
+      String saldoAsteriscos = "R$ " + "*".repeat(saldoFormatado.length() - 3);
     %>
     <div class="<%= saldoClass %>">
-      R$ <%= String.format("%.2f", saldoAtual).replace(",", "x").replace(".", ",").replace("x", ".") %> <%-- **MUDANÇA 7: EXIBIÇÃO DO SALDO REAL** --%>
-      <i class="fas fa-eye"></i>
+      <span id="saldoValor" data-real-saldo="R$ <%= saldoFormatado %>">R$ <%= saldoFormatado %></span>
+      <i class="fas fa-eye" id="toggleSaldo"></i>
     </div>
   </div>
 
@@ -398,9 +410,11 @@
     <h2 class="section-title">Despesas recentes</h2>
     <div class="list-container">
       <% if (despesasDoUsuario != null && !despesasDoUsuario.isEmpty()) { %>
-      <% for (Despesa despesa : despesasDoUsuario) { %>
+      <% for (Despesa despesa : despesasDoUsuario) {
+        String categoriaIconeDespesa = iconesCategorias.getOrDefault(despesa.getCategoria().getNome(), "fas fa-money-bill-wave-alt");
+      %>
       <div class="list-item despesa">
-        <i class="fas fa-money-bill-wave-alt"></i>
+        <i class="<%= categoriaIconeDespesa %>"></i>
         <div class="item-info">
           <p><%= despesa.getDescricao() %></p>
           <span class="data"><%= despesa.getDataDespesa().format(dateFormatter) %> - <%= despesa.getCategoria().getNome() %></span> </div>
@@ -421,9 +435,11 @@
     <h2 class="section-title">Receitas recentes</h2>
     <div class="list-container">
       <% if (receitasDoUsuario != null && !receitasDoUsuario.isEmpty()) { %>
-      <% for (Receita receita : receitasDoUsuario) { %>
+      <% for (Receita receita : receitasDoUsuario) {
+        String tipoReceitaIcone = iconesCategorias.getOrDefault(receita.getTipoReceita(), "fas fa-dollar-sign");
+      %>
       <div class="list-item receita">
-        <i class="fas fa-dollar-sign"></i>
+        <i class="<%= tipoReceitaIcone %>"></i>
         <div class="item-info">
           <p><%= receita.getDescricao() %></p>
           <span class="data"><%= receita.getDataReceita().format(dateFormatter) %> - <%= receita.getTipoReceita() %></span>
@@ -450,5 +466,31 @@
 <div class="footer">
   <i class="fas fa-home"></i> Direitos reservados à Din+
 </div>
+
+<script>
+  const saldoValorSpan = document.getElementById('saldoValor');
+  const toggleSaldoIcon = document.getElementById('toggleSaldo');
+
+  const realSaldo = saldoValorSpan.dataset.realSaldo;
+
+  const ocultedSaldo = "R$ " + "*".repeat(realSaldo.length - 3);
+
+  let isSaldoVisible = true;
+
+  toggleSaldoIcon.addEventListener('click', () => {
+    if (isSaldoVisible) {
+      saldoValorSpan.textContent = ocultedSaldo;
+      toggleSaldoIcon.classList.remove('fa-eye');
+      toggleSaldoIcon.classList.add('fa-eye-slash');
+    } else {
+
+      saldoValorSpan.textContent = realSaldo;
+      toggleSaldoIcon.classList.remove('fa-eye-slash');
+      toggleSaldoIcon.classList.add('fa-eye');
+    }
+
+    isSaldoVisible = !isSaldoVisible;
+  });
+</script>
 </body>
 </html>
