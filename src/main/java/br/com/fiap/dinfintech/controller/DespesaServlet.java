@@ -21,7 +21,7 @@ public class DespesaServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private DespesaDao despesaDao;
-    private CategoriaDao categoriaDao; // NOVO
+    private CategoriaDao categoriaDao;
 
     public void init() throws ServletException {
         this.despesaDao = new DespesaDao();
@@ -31,7 +31,7 @@ public class DespesaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
-            action = "listar"; // Ação padrão
+            action = "listar";
         }
 
         switch (action) {
@@ -85,9 +85,9 @@ public class DespesaServlet extends HttpServlet {
 
         try {
             String descricao = request.getParameter("descricao");
-            double valor = Double.parseDouble(request.getParameter("valor").replace(",", ".")); // Lida com vírgula como separador decimal
+            double valor = Double.parseDouble(request.getParameter("valor").replace(",", "."));
             LocalDate dataDespesa = LocalDate.parse(request.getParameter("dataDespesa"));
-            int idCategoriaSelecionada = Integer.parseInt(request.getParameter("categoriaId")); // Recebe o ID da categoria
+            int idCategoriaSelecionada = Integer.parseInt(request.getParameter("categoriaId"));
 
             DespesaDao despesaDAO = new DespesaDao();
             CategoriaDao categoriaDAO = new CategoriaDao();
@@ -113,7 +113,7 @@ public class DespesaServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagemErro", "Ocorreu um erro inesperado: " + e.getMessage());
-            mostrarFormularioCadastro(request, response); // Retorna ao formulário com erro
+            mostrarFormularioCadastro(request, response);
         }
     }
 }

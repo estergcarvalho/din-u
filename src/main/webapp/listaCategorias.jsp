@@ -86,8 +86,7 @@
     <nav class="nav-menu">
         <ul>
             <li><a href="<%= request.getContextPath() %>/home.jsp">Página inicial</a></li>
-            <li><a href="#">Carteira</a></li>
-            <li><a href="#">Estatísticas</a></li>
+            <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
             <li><a href="<%= request.getContextPath() %>/metas?action=listar">Metas</a></li>
             <li class="dropdown">
                 <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>

@@ -15,7 +15,6 @@
   <title>Din+ - Página Inicial</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Seu CSS existente (mantenha-o, apenas para referência) */
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
@@ -117,7 +116,7 @@
       font-size: 18px;
       color: #ccc;
     }
-    /* **MUDANÇA 2: NOVOS ESTILOS PARA O SALDO** */
+
     .saldo-card .saldo-valor {
       font-size: 48px;
       font-weight: bold;
@@ -127,15 +126,15 @@
       align-items: center;
     }
     .saldo-card .saldo-valor.positivo {
-      color: #28a745; /* Verde para saldo positivo */
+      color: #28a745;
     }
     .saldo-card .saldo-valor.negativo {
-      color: #dc3545; /* Vermelho para saldo negativo */
+      color: #dc3545;
     }
     .saldo-card .saldo-valor.zero {
-      color: #f7931e; /* Laranja para saldo zero */
+      color: #f7931e;
     }
-    /* FIM DOS NOVOS ESTILOS */
+
     .saldo-card .saldo-valor i {
       font-size: 24px;
       margin-left: 10px;
@@ -256,7 +255,7 @@
     .footer i {
       margin-right: 8px;
     }
-    /* Mensagens de Sucesso/Erro */
+
     .message-container {
       max-width: 700px;
       margin: 20px auto;
@@ -279,46 +278,32 @@
 </head>
 <body>
 <%
-  // Recupera o usuário da sessão
   Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-  // Verifica se o usuário está logado
   if (usuarioLogado == null) {
-    // Se não estiver logado, redireciona para a página de login
     response.sendRedirect(request.getContextPath() + "/login.jsp");
-    return; // Importante para parar a execução da JSP
+    return;
   }
 
-  // **MUDANÇA 3: BUSCA E ATUALIZAÇÃO DO SALDO**
   UsuarioDao usuarioDao = new UsuarioDao();
   double saldoAtual = usuarioDao.buscarSaldoUsuario(usuarioLogado.getIdUsuario());
 
-  // IMPORTANTE: Atualiza o objeto usuarioLogado na sessão com o saldo mais recente
   usuarioLogado.setSaldo(saldoAtual);
   session.setAttribute("usuarioLogado", usuarioLogado);
-  // **FIM DA MUDANÇA 3**
 
-
-  // Instancia o DAO de Despesas e lista as despesas do usuário logado
   DespesaDao despesaDAO = new DespesaDao();
   List<Despesa> despesasDoUsuario = despesaDAO.listarDespesasPorUsuario(usuarioLogado.getIdUsuario());
 
-  // NOVO: Calcula o total de despesas por categoria
   Map<String, Double> totalDespesasPorCategoria = despesaDAO.calcularTotalDespesasPorCategoria(usuarioLogado.getIdUsuario());
 
-  // Instancia o DAO de Receitas e lista as receitas do usuário logado
   ReceitaDao receitaDAO = new ReceitaDao();
   List<Receita> receitasDoUsuario = receitaDAO.listarReceitasPorUsuario(usuarioLogado.getIdUsuario());
 
-  // Formato para exibir a data
   DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-  // Pega mensagens de sucesso do request (após cadastro de despesa)
   String cadastroDespesaSucesso = request.getParameter("cadastroDespesaSucesso");
   String cadastroReceitaSucesso = request.getParameter("cadastroReceitaSucesso");
 
-  // Mapeamento de categorias para ícones (adicione mais conforme necessário)
-  // Você pode popular isso de forma dinâmica do banco de dados no futuro, se as categorias tiverem ícones.
   Map<String, String> iconesCategorias = new HashMap<>();
   iconesCategorias.put("Alimentação", "fas fa-utensils");
   iconesCategorias.put("Moradia", "fas fa-home");
@@ -328,9 +313,9 @@
   iconesCategorias.put("Lazer", "fas fa-gamepad");
   iconesCategorias.put("Contas Residenciais", "fas fa-file-invoice-dollar");
   iconesCategorias.put("Outras Despesas", "fas fa-ellipsis-h");
-  iconesCategorias.put("Compras", "fas fa-shopping-cart"); // Exemplo adicional
-  iconesCategorias.put("Mercado", "fas fa-shopping-basket"); // Exemplo adicional
-  iconesCategorias.put("Serviços", "fas fa-tools"); // Exemplo adicional
+  iconesCategorias.put("Compras", "fas fa-shopping-cart");
+  iconesCategorias.put("Mercado", "fas fa-shopping-basket");
+  iconesCategorias.put("Serviços", "fas fa-tools");
 %>
 
 <div class="header">
@@ -338,19 +323,17 @@
   <nav class="nav-menu">
     <ul>
       <li><a href="<%= request.getContextPath() %>/home.jsp">Página inicial</a></li>
-      <li><a href="#">Carteira</a></li>
-      <li><a href="#">Estatísticas</a></li>
+      <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
       <li><a href="<%= request.getContextPath() %>/metas?action=listar">Metas</a></li>
       <li class="dropdown">
         <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>
         <div class="dropdown-content">
-          <a href="<%= request.getContextPath() %>/despesas?action=cadastrar">Nova Despesa</a> <%-- **MUDANÇA 4: ATUALIZADO PARA SERVLET** --%>
-          <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a> <%-- **MUDANÇA 4: ATUALIZADO PARA SERVLET** --%>
+          <a href="<%= request.getContextPath() %>/despesas?action=cadastrar">Nova Despesa</a>
+          <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a>
           <a href="<%= request.getContextPath() %>/metas?action=cadastrar">Nova Meta</a>
           <a href="<%= request.getContextPath() %>/categorias?action=cadastrar">Nova Categoria</a>
         </div>
       </li>
-      <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
     </ul>
   </nav>
   <a href="<%= request.getContextPath() %>/logout" class="logout-btn">Sair</a>
@@ -372,7 +355,6 @@
   <div class="saldo-card">
     <h3>Saldo da Conta</h3>
     <%
-      // **MUDANÇA 5: LÓGICA PARA DEFINIR A CLASSE CSS COM BASE NO SALDO**
       String saldoClass = "saldo-valor";
       if (saldoAtual > 0) {
         saldoClass += " positivo";
@@ -382,7 +364,7 @@
         saldoClass += " zero";
       }
     %>
-    <div class="<%= saldoClass %>"> <%-- **MUDANÇA 6: APLICAÇÃO DA CLASSE CSS DINÂMICA** --%>
+    <div class="<%= saldoClass %>">
       R$ <%= String.format("%.2f", saldoAtual).replace(",", "x").replace(".", ",").replace("x", ".") %> <%-- **MUDANÇA 7: EXIBIÇÃO DO SALDO REAL** --%>
       <i class="fas fa-eye"></i>
     </div>
@@ -395,7 +377,6 @@
       <% for (Map.Entry<String, Double> entry : totalDespesasPorCategoria.entrySet()) {
         String categoriaNome = entry.getKey();
         Double totalGasto = entry.getValue();
-        // Tenta pegar o ícone do mapa, se não encontrar, usa um ícone padrão de tag
         String icone = iconesCategorias.getOrDefault(categoriaNome, "fas fa-tag");
       %>
       <div class="categoria-card">
@@ -406,7 +387,7 @@
       <% } %>
       <% } else { %>
       <div class="center-message">
-        <i class="fas fa-chart-pie" style="font-size: 50px; color: #ccc;"></i> <%-- **MUDANÇA 8: MELHORIA NA MENSAGEM DE AUSÊNCIA DE GASTOS** --%>
+        <i class="fas fa-chart-pie" style="font-size: 50px; color: #ccc;"></i>
         <p>Nenhum gasto registrado por categoria ainda.</p>
       </div>
       <% } %>

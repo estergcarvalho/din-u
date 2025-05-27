@@ -323,19 +323,17 @@
   <nav class="nav-menu">
     <ul>
       <li><a href="<%= request.getContextPath() %>/home.jsp">Página inicial</a></li>
-      <li><a href="#">Carteira</a></li>
-      <li><a href="#">Estatísticas</a></li>
+      <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
       <li><a href="<%= request.getContextPath() %>/metas?action=listar">Metas</a></li>
       <li class="dropdown">
         <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>
         <div class="dropdown-content">
-          <a href="<%= request.getContextPath() %>/despesas?action=cadastrar">Nova Despesa</a> <%-- **MUDANÇA 4: ATUALIZADO PARA SERVLET** --%>
-          <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a> <%-- **MUDANÇA 4: ATUALIZADO PARA SERVLET** --%>
+          <a href="<%= request.getContextPath() %>/despesas?action=cadastrar">Nova Despesa</a>
+          <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a>
           <a href="<%= request.getContextPath() %>/metas?action=cadastrar">Nova Meta</a>
           <a href="<%= request.getContextPath() %>/categorias?action=cadastrar">Nova Categoria</a>
         </div>
       </li>
-      <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
     </ul>
   </nav>
   <a href="<%= request.getContextPath() %>/logout" class="logout-btn">Sair</a>

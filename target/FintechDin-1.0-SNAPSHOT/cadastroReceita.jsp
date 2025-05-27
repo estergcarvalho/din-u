@@ -9,7 +9,6 @@
     <title>Din+ - Cadastrar Receita</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Reutilize o CSS existente do cadastroDespesa.jsp */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -141,7 +140,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
-            box-sizing: border-box; /* Garante que padding não aumente a largura */
+            box-sizing: border-box;
         }
 
         .form-group input[type="submit"] {
@@ -177,7 +176,7 @@
             color: white;
             text-align: center;
             padding: 20px 0;
-            margin-top: auto; /* Empurra o rodapé para baixo */
+            margin-top: auto;
         }
         .footer i {
             margin-right: 8px;
@@ -186,16 +185,12 @@
 </head>
 <body>
 <%
-    // Recupera o usuário da sessão
     Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-    // Verifica se o usuário está logado
     if (usuarioLogado == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
     }
-
-    // Pega mensagens de erro ou sucesso
     String mensagemErro = (String) request.getAttribute("mensagemErro");
     String mensagemSucesso = (String) request.getAttribute("mensagemSucesso");
 %>
@@ -205,14 +200,13 @@
     <nav class="nav-menu">
         <ul>
             <li><a href="<%= request.getContextPath() %>/home.jsp">Página inicial</a></li>
-            <li><a href="#">Carteira</a></li>
-            <li><a href="#">Estatísticas</a></li>
+            <li><a href="<%= request.getContextPath() %>/categorias?action=listar">Categorias</a></li>
             <li><a href="#">Metas</a></li>
             <li class="dropdown">
                 <a href="#" class="dropbtn">Cadastro <i class="fas fa-caret-down"></i></a>
                 <div class="dropdown-content">
                     <a href="<%= request.getContextPath() %>/despesas?action=cadastrar">Nova Despesa</a>
-                    <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a> <%-- Link atualizado --%>
+                    <a href="<%= request.getContextPath() %>/receitas?action=cadastrar">Nova Receita</a>
                     <a href="#">Nova Categoria</a>
                 </div>
             </li>
